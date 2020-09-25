@@ -1,0 +1,27 @@
+html, body {
+	height: 100%;
+}
+
+#contents {
+	display: flex;
+	flex-direction: column;
+}
+
+#calculator {
+	align-self: center;
+	background: LightGray;
+}
+
+#display {
+	grid-area: 1/1/2/5;
+	justify-self: center;
+	align-self: center;
+}
+
+#clear {
+	grid-area: 6/4/7/5;
+}
+
+footer {
+	align-self: center;
+}
