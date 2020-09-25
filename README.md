@@ -1,1 +1,1 @@
-# calculator
+# calculator project: JavaScript, HTML, CSS.
