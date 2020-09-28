@@ -64,36 +64,44 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 }
 
 
+
+// ### Calculator Funcrionality ##
+
 // Function to get the calculator selection via event listener
-// store it, and display it
 function getSelection(e){
-	const display = document.querySelector('#display');
-	displayValue = displayValue + e.target.id;
-	display.textContent = displayValue;
+	if (e.target.id === 'clear') clear(e);
+	else if (e.target.id === '=') equal(e);
+	else (updateDisplay(displayValue + e.target.id));
 }
 
 // Function to clear the calculator display and the stored value
 function clear(e){
-	const display = document.querySelector('#display');
-	displayValue = '';
-	display.textContent = displayValue;
+	updateDisplay('');
 }
 
 // Function to take the current display value
-function equalSelection(e){
-	console.log(displayValue);
-	parseInput(displayValue);
+function equal(e){
+	let parsedDispayValue = parseOnOperators(displayValue);
+	console.log(parsedDispayValue);
 }
 
 // Function to parse the displayed value
-function parseInput(input){
-	let operatorRegex = /\+|\-|\*|\//g;;
-	operands = input.split(operatorRegex);
-	console.log(operands);
+function parseOnOperators(input){
+	let operatorRegex = /(\+|\-|\*|\/)/g;;
+	let parsedInput = input.split(operatorRegex); //parsed input includes seperating operators
+	return parsedInput;
 }
 
-// Function to update the display and displayValue
-// TODO
+// Function to update the display and displayValue given an update-string
+// input: a string to update
+function updateDisplay(update){
+	const display = document.querySelector('#display');
+	displayValue = update;
+	display.textContent = update;
+}
+
+
+
 
 
 // ## Script ##
@@ -107,53 +115,5 @@ createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click', getSelection));
-
-const clearBtn = document.querySelector('#clear');
-clearBtn.addEventListener('click', clear);
-
-const equalBtn = document.getElementById('=');
-equalBtn.addEventListener('click', equalSelection);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
