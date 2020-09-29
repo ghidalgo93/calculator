@@ -1,23 +1,19 @@
 // ## Basic Operators ##
 
-function add (a, b){
+function add(a, b){
 	return a + b;
 }
 
-function subtract (a, b){
+function subtract(a, b){
 	return a - b;
 }
 
-function multiply (a, b){
+function multiply(a, b){
 	return a * b;
 }
 
-function divide (a, b){
+function divide(a, b){
 	return a / b;
-}
-
-function operate(operator, a, b){
-	return operator(a,b);
 }
 
 
@@ -70,45 +66,59 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 // Function to get the calculator selection via event listener
 function getSelection(e){
 	if (e.target.id === 'clear') clear(e);
+	else if (operatorList.includes(e.target.id)) operatorPressed(e);
 	else if (e.target.id === '=') equal(e);
-	else (updateDisplay(displayValue + e.target.id));
+	else (updateDisplay(display.textContent + e.target.id));
 }
 
-// Function to clear the calculator display and the stored value
+// Function to clear the calculator display and the stored operand value
 function clear(e){
+	operandInput = '';
 	updateDisplay('');
 }
 
-// Function to take the current display value
+function operatorPressed(e){
+	operatorInput = e.target.id;
+	//TODO highlight operator that was pressed
+	// store operand
+	operandInput = display.textContent;
+}
+
 function equal(e){
-	let parsedDispayValue = parseOnOperators(displayValue);
-	console.log(parsedDispayValue);
+	let answer = operate(operatorInput, operandInput, e.target.id);
+	updateDisplay(answer);
+}
+
+// Function to operate given an operate and two numbers
+// input: [char] basic operator (+,-,*,/), number, number
+// output: number
+function operate(operator, a, b){
+	return operator(a,b);
 }
 
 // Function to parse the displayed value
-function parseOnOperators(input){
-	let operatorRegex = /(\+|\-|\*|\/)/g;;
-	let parsedInput = input.split(operatorRegex); //parsed input includes seperating operators
-	return parsedInput;
-}
+// function parseOnOperators(input){
+// 	let operatorRegex = /(\+|\-|\*|\/)/g;
+// 	let parsedInput = input.split(operatorRegex); //parsed input includes seperating operators
+// 	return parsedInput;
+// }
 
-// Function to update the display and displayValue given an update-string
-// input: a string to update
+// Function to update the display given an update-string
+// input: an updated display string
 function updateDisplay(update){
-	const display = document.querySelector('#display');
-	displayValue = update;
-	display.textContent = update;
+	display.textContent = update; 
 }
-
 
 
 
 
 // ## Script ##
-let calculatorColumns = 4;
-let calculatorRows = 5;
-let calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
-let displayValue = '';
+const calculatorColumns = 4;
+const calculatorRows = 5;
+const calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
+const operatorList = ['+', '-', '*', '/'];
+let operandInput = '';
+let operatorInput = '';
 
 const calculator = document.querySelector('#calculator');
 createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
@@ -116,4 +126,4 @@ createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click', getSelection));
 
-
+const display = document.querySelector('#display');
