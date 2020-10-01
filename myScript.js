@@ -1,4 +1,4 @@
-// ## Basic Operators ##
+// ### Basic Operators ###
 
 function add(a, b){
 	return a + b;
@@ -16,10 +16,15 @@ function divide(a, b){
 	return a / b;
 }
 
+// Function to operate given an operate and two numbers
+// input: [char] basic operator (+,-,*,/), number, number
+// output: number
+function operate(operator, a, b){
+	return operator(a,b);
+}
 
 
-
-// ## Calculator Creation
+// ### Calculator Creation ###
 
 // Function to create a grid, lay it out and fill it, within a given an HTML element
 // input: the html element to become grid container, array of cell names, number of columns, number of row
@@ -61,47 +66,58 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 
 
 
-// ### Calculator Funcrionality ##
+// ### Calculator Funcrionality ###
 
-// Function to get the calculator selection via event listener
+// Get the calculator selection via event listener, and pass the selection to a handler function
 function getSelection(e){
 	if (e.target.id === 'clear') clear(e);
-	else if (operatorList.includes(e.target.id)) operatorPressed(e);
-	else if (e.target.id === '=') equal(e);
-	else (updateDisplay(display.textContent + e.target.id));
+	else if (operatorList.includes(e.target.id)) handleOperatorPress(e);
+	else (handleNumberPress(e.target.id));
 }
 
-// Function to clear the calculator display and the stored operand value
+// Clear the calculator display and the stored operand value
 function clear(e){
-	operandInput = '';
+	displayValue = '';
 	updateDisplay('');
 }
 
-function operatorPressed(e){
-	operatorInput = e.target.id;
+// Handle the press of an operator in the operator list
+// : does the 'last' calculation in order to display correct
+//   values and then stores new values (operands and operator) 
+function handleOperatorPress(e){
 	//TODO highlight operator that was pressed
-	// store operand
-	operandInput = display.textContent;
-}
-
-function equal(e){
-	let answer = operate(operatorInput, operandInput, e.target.id);
+	operandB = display.textContent;
+	translatedOperator = translateOperator(operatorInput);
+	let answer = operate(translatedOperator, Number(operandA), Number(operandB));
+	answer = Math.round((answer + Number.EPSILON) * 100) / 100;
 	updateDisplay(answer);
+	operandA = answer;
+	operatorInput = e.target.id; //get new operator from input
+	if (operatorInput === "="){resetInitialValues()}
+	displayValue = '';
 }
 
-// Function to operate given an operate and two numbers
-// input: [char] basic operator (+,-,*,/), number, number
-// output: number
-function operate(operator, a, b){
-	return operator(a,b);
+// Reset to initial operand and operator values (ie, when = is pressed)
+function resetInitialValues(){
+		operandA = 0;
+		operandB = 0;
+		operatorInput = '+'
 }
 
-// Function to parse the displayed value
-// function parseOnOperators(input){
-// 	let operatorRegex = /(\+|\-|\*|\/)/g;
-// 	let parsedInput = input.split(operatorRegex); //parsed input includes seperating operators
-// 	return parsedInput;
-// }
+// Handle the press of a number key; update display and displayValue
+function handleNumberPress(numberPressed){
+	displayValue = displayValue + numberPressed;
+	updateDisplay(displayValue);
+}
+
+// Function to take operator as a sign and give back the function name
+function translateOperator(operator){
+	return (operator === '+') ? add
+		: (operator === '-') ? subtract
+		: (operator === '*') ? multiply
+		: (operator === '/') ? divide
+		: null;
+} 
 
 // Function to update the display given an update-string
 // input: an updated display string
@@ -116,9 +132,11 @@ function updateDisplay(update){
 const calculatorColumns = 4;
 const calculatorRows = 5;
 const calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
-const operatorList = ['+', '-', '*', '/'];
-let operandInput = '';
-let operatorInput = '';
+const operatorList = ['+', '-', '*', '/', '='];
+let operandA = 0;
+let operandB = 0;
+let operatorInput = '+';
+let displayValue = '';
 
 const calculator = document.querySelector('#calculator');
 createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
