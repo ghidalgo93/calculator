@@ -85,6 +85,7 @@ function getSelection(e){
 function clear(e){
 	displayValue = '';
 	updateDisplay(displayValue);
+	resetInitialValues();
 }
 
 // Changes the sign of the input
