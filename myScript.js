@@ -93,7 +93,7 @@ function handleOperatorPress(e){
 	operandB = display.textContent;
 	let translatedOperator = translateOperator(operatorInput);
 	let answer = operate(translatedOperator, Number(operandA), Number(operandB));
-	answer = Math.round((answer + Number.EPSILON) * 100) / 100;
+	answer = round(answer, 2);
 	updateDisplay(answer);
 	operandA = answer;
 	operatorInput = e.target.id; //get new operator from input
@@ -135,6 +135,10 @@ function toggleDecimalPoint(){
 	decimalPoint.disabled = !decimalPoint.disabled;
 }
 
+// Rounds the number given the decimal places desired
+function round(value, decimals) {
+	  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 
 
 
