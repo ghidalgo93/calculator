@@ -1,5 +1,6 @@
 html, body {
 	height: 100%;
+	background-color: skyblue;
 }
 
 #contents {
@@ -9,13 +10,17 @@ html, body {
 
 #calculator {
 	align-self: center;
-	background: LightGray;
+	background: saddlebrown;
 }
 
 #display {
 	grid-area: 1/1/2/5;
 	justify-self: center;
 	align-self: center;
+}
+
+button {
+	background: goldenrod;
 }
 
 #clear {
