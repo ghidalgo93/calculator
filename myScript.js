@@ -90,16 +90,24 @@ function clear(e){
 //   values and then stores new values (operands and operator) 
 function handleOperatorPress(e){
 	//TODO highlight operator that was pressed
-	operandB = display.textContent;
-	let translatedOperator = translateOperator(operatorInput);
-	let answer = operate(translatedOperator, Number(operandA), Number(operandB));
-	answer = round(answer, 2);
+	operandB = display.textContent; //set operand b to user input
+	answer = formatOperation(operatorInput, operandA, operandB) //do and format PAST operation
 	updateDisplay(answer);
-	operandA = answer;
+	operandA = answer; //set operand a to PAST answer
 	operatorInput = e.target.id; //get new operator from input
 	if (operatorInput === "="){resetInitialValues()}
 	displayValue = '';
 }
+
+// Format and run the operation desired, return the rounded answer 
+//input: operator as a sign (+,-,*,/), operand a, operand b
+//output: answer rounded to the hundreths place
+function formatOperation(unformattedOperator, a, b){
+	let formattedOperator = formatOperator(unformattedOperator);
+	let answer = operate(formattedOperator, Number(a), Number(b));
+	return answer = round(answer, 2);
+}
+
 
 // Reset to initial operand and operator values (ie, when = is pressed)
 function resetInitialValues(){
@@ -115,7 +123,7 @@ function handleNumberPress(numberPressed){
 }
 
 // Take operator as a sign and give back the function name
-function translateOperator(operator){
+function formatOperator(operator){
 	return (operator === '+') ? add
 		: (operator === '-') ? subtract
 		: (operator === '*') ? multiply
