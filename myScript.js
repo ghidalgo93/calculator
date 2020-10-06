@@ -73,6 +73,8 @@ function getSelection(e){
 	if (e.target.id === 'clear') {
 		if (decimalPoint.disabled) toggleDecimalPoint();
 		clear(e);
+	} else if (e.target.id === '+/-'){
+		handleSignChange(e);
 	} else if (operatorList.includes(e.target.id)){
 		if (decimalPoint.disabled) toggleDecimalPoint();
 		handleOperatorPress(e);
@@ -82,7 +84,14 @@ function getSelection(e){
 // Clear the calculator display and the stored operand value
 function clear(e){
 	displayValue = '';
-	updateDisplay('');
+	updateDisplay(displayValue);
+}
+
+// Changes the sign of the input
+function handleSignChange(e){
+	let negative = String(displayValue * -1);
+	displayValue = negative;
+	updateDisplay(displayValue);
 }
 
 // Handle the press of an operator in the operator list
@@ -153,7 +162,6 @@ function round(value, decimals) {
 // ## Script ##
 const calculatorColumns = 4;
 const calculatorRows = 5;
-// const calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
 const calculatorCellNames = ['display','clear','+/-','%','/',7,8,9,'*',4,5,6,'-',1,2,3,'+',0,'.','='];
 const operatorList = ['+', '-', '*', '/', '='];
 let operandA = 0;
