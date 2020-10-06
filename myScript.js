@@ -70,9 +70,13 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 
 // Get the calculator selection via event listener, and pass the selection to a handler function
 function getSelection(e){
-	if (e.target.id === 'clear') clear(e);
-	else if (operatorList.includes(e.target.id)) handleOperatorPress(e);
-	else (handleNumberPress(e.target.id));
+	if (e.target.id === 'clear') {
+		if (decimalPoint.disabled) toggleDecimalPoint();
+		clear(e);
+	} else if (operatorList.includes(e.target.id)){
+		if (decimalPoint.disabled) toggleDecimalPoint();
+		handleOperatorPress(e);
+	} else (handleNumberPress(e.target.id));
 }
 
 // Clear the calculator display and the stored operand value
@@ -87,7 +91,7 @@ function clear(e){
 function handleOperatorPress(e){
 	//TODO highlight operator that was pressed
 	operandB = display.textContent;
-	translatedOperator = translateOperator(operatorInput);
+	let translatedOperator = translateOperator(operatorInput);
 	let answer = operate(translatedOperator, Number(operandA), Number(operandB));
 	answer = Math.round((answer + Number.EPSILON) * 100) / 100;
 	updateDisplay(answer);
@@ -110,7 +114,7 @@ function handleNumberPress(numberPressed){
 	updateDisplay(displayValue);
 }
 
-// Function to take operator as a sign and give back the function name
+// Take operator as a sign and give back the function name
 function translateOperator(operator){
 	return (operator === '+') ? add
 		: (operator === '-') ? subtract
@@ -119,10 +123,16 @@ function translateOperator(operator){
 		: null;
 } 
 
-// Function to update the display given an update-string
+// Update the display given an update-string
 // input: an updated display string
 function updateDisplay(update){
 	display.textContent = update; 
+}
+
+// Toggle the decial point state when pressed so that it cannot
+// be input more than once
+function toggleDecimalPoint(){	
+	decimalPoint.disabled = !decimalPoint.disabled;
 }
 
 
@@ -144,4 +154,19 @@ createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click', getSelection));
 
+const decimalPoint = document.getElementById(".");
+decimalPoint.addEventListener('click', toggleDecimalPoint);
+
 const display = document.querySelector('#display');
+
+
+
+
+
+
+
+
+
+
+
+
