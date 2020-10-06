@@ -90,7 +90,7 @@ function clear(e){
 
 // Changes the sign of the input
 function handleSignChange(e){
-	let negative = String(displayValue * -1);
+	let negative = String(display.textContent * -1);
 	displayValue = negative;
 	updateDisplay(displayValue);
 }
