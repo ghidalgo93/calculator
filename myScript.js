@@ -153,7 +153,8 @@ function round(value, decimals) {
 // ## Script ##
 const calculatorColumns = 4;
 const calculatorRows = 5;
-const calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
+// const calculatorCellNames = ['display',7,8,9,'/',4,5, 6, '*', 1, 2, 3, '-', 0, '.','=', '+', 'clear'];
+const calculatorCellNames = ['display','clear','+/-','%','/',7,8,9,'*',4,5,6,'-',1,2,3,'+',0,'.','='];
 const operatorList = ['+', '-', '*', '/', '='];
 let operandA = 0;
 let operandB = 0;

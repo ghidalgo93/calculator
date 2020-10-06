@@ -15,18 +15,19 @@ html, body {
 	background: saddlebrown;
 }
 
+button {
+	background: goldenrod;
+}
+
 #display {
 	grid-area: 1/1/2/5;
 	justify-self: center;
 	align-self: center;
 }
 
-button {
-	background: goldenrod;
-}
-
-#clear {
-	grid-area: 6/4/7/5;
+/*this is the class '0', needed to escape the numeric char */
+#\30 {
+	grid-area: 6/1/7/3;
 }
 
 footer {
