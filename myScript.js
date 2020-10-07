@@ -68,37 +68,44 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 
 // ### Calculator Funcrionality ###
 
-// Get the calculator selection via event listener, and pass the selection to a handler function
-function getSelection(e){
-	if (e.target.id === 'clear') {
+// // Get the calculator selection via event listener, and pass the selection to a handler function
+function getSelection(inputValue){
+	if (inputValue === 'clear' || inputValue === 'Backspace') {
 		if (decimalPoint.disabled) toggleDecimalPoint();
-		clear(e);
-	} else if (e.target.id === '+/-'){
-		handleSignChange(e);
-	} else if (e.target.id === '%'){
-		handlePercentage(e);
-	}else if (operatorList.includes(e.target.id)){
+		handleClear();
+	} else if (inputValue === '+/-'){
+		handleSignChange();
+	} else if (inputValue === '%'){
+		handlePercentage();
+	} else if (operatorList.includes(inputValue)){
 		if (decimalPoint.disabled) toggleDecimalPoint();
-		handleOperatorPress(e);
-	} else (handleNumberPress(e.target.id));
+		handleOperatorPress(inputValue);
+	} else (handleNumberPress(inputValue));
 }
 
 // Clear the calculator display and the stored operand value
-function clear(e){
+function handleClear(){
 	displayValue = '';
 	updateDisplay(displayValue);
 	resetInitialValues();
 }
 
+// Reset to initial operand and operator values (ie, when = is pressed)
+function resetInitialValues(){
+		operandA = 0;
+		operandB = 0;
+		operatorInput = '+'
+}
+
 // Changes the sign of the input
-function handleSignChange(e){
+function handleSignChange(){
 	let negative = String(display.textContent * -1);
 	displayValue = negative;
 	updateDisplay(displayValue);
 }
 
 // Gives input as percentage
-function handlePercentage(e){
+function handlePercentage(){
 	let percent = String(display.textContent / 100);
 	displayValue = percent;
 	updateDisplay(displayValue);
@@ -107,13 +114,14 @@ function handlePercentage(e){
 // Handle the press of an operator in the operator list
 // : does the 'last' calculation in order to display correct
 //   values and then stores new values (operands and operator) 
-function handleOperatorPress(e){
+function handleOperatorPress(operatorPressed){
+	if (operatorPressed === 'Enter') operatorPressed = '=';
 	//TODO highlight operator that was pressed
 	operandB = display.textContent; //set operand b to user input
 	answer = formatOperation(operatorInput, operandA, operandB) //do and format PAST operation
 	updateDisplay(answer);
 	operandA = answer; //set operand a to PAST answer
-	operatorInput = e.target.id; //get new operator from input
+	operatorInput = operatorPressed; //get new operator from input
 	if (operatorInput === "="){resetInitialValues()}
 	displayValue = '';
 }
@@ -127,20 +135,6 @@ function formatOperation(unformattedOperator, a, b){
 	return answer = round(answer, 2);
 }
 
-
-// Reset to initial operand and operator values (ie, when = is pressed)
-function resetInitialValues(){
-		operandA = 0;
-		operandB = 0;
-		operatorInput = '+'
-}
-
-// Handle the press of a number key; update display and displayValue
-function handleNumberPress(numberPressed){
-	displayValue = displayValue + numberPressed;
-	updateDisplay(displayValue);
-}
-
 // Take operator as a sign and give back the function name
 function formatOperator(operator){
 	return (operator === '+') ? add
@@ -149,6 +143,12 @@ function formatOperator(operator){
 		: (operator === '/') ? divide
 		: null;
 } 
+
+// Handle the press of a number key; update display and displayValue
+function handleNumberPress(numberPressed){
+	displayValue = displayValue + numberPressed;
+	updateDisplay(displayValue);
+}
 
 // Update the display given an update-string
 // input: an updated display string
@@ -172,8 +172,8 @@ function round(value, decimals) {
 // ## Script ##
 const calculatorColumns = 4;
 const calculatorRows = 5;
-const calculatorCellNames = ['display','clear','+/-','%','/',7,8,9,'*',4,5,6,'-',1,2,3,'+',0,'.','='];
-const operatorList = ['+', '-', '*', '/', '='];
+const calculatorCellNames = ['display','clear','+/-','%','/','7','8','9','*','4','5','6','-','1','2','3','+','0','.','='];
+const operatorList = ['+', '-', '*', '/', '=', 'Enter'];
 let operandA = 0;
 let operandB = 0;
 let operatorInput = '+';
@@ -183,18 +183,18 @@ const calculator = document.querySelector('#calculator');
 createGrid(calculator, calculatorCellNames, calculatorColumns, calculatorRows);
 
 const buttons = document.querySelectorAll('button');
-buttons.forEach(button => button.addEventListener('click', getSelection));
+buttons.forEach(button => button.addEventListener('click', function(e) {getSelection(e.target.id)}));
 
 const decimalPoint = document.getElementById(".");
 decimalPoint.addEventListener('click', toggleDecimalPoint);
 
 const display = document.querySelector('#display');
 
-
-
-
-
-
+document.addEventListener('keydown', function(e){
+	 if ((calculatorCellNames.includes(e.key)) || (e.key === 'Enter') || (e.key === 'Backspace')){
+		getSelection(e.key);
+	}
+})
 
 
 
