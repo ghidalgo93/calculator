@@ -79,6 +79,9 @@ function getSelection(inputValue){
 	} else if (operatorList.includes(inputValue)){
 		handleOperatorPress(inputValue);
 	} else (handleNumberPress(inputValue));
+
+	toggleDecimalPoint();
+	return;
 }
 
 // Clear the calculator display and the stored operand value
@@ -87,13 +90,15 @@ function handleClear(){
 	updateDisplay(displayValue);
 	resetInitialValues();
 	checkForDecimalPoint();
+	return;
 }
 
 // Reset to initial operand and operator values (ie, when = is pressed)
 function resetInitialValues(){
-		operandA = 0;
-		operandB = 0;
-		operatorInput = '+'
+	operandA = 0;
+	operandB = 0;
+	operatorInput = '+'
+	return;
 }
 
 // Changes the sign of the input
@@ -101,6 +106,7 @@ function handleSignChange(){
 	let negative = String(display.textContent * -1);
 	displayValue = negative;
 	updateDisplay(displayValue);
+	return;
 }
 
 // Gives input as percentage
@@ -109,6 +115,7 @@ function handlePercentage(){
 	displayValue = percent;
 	updateDisplay(displayValue);
 	checkForDecimalPoint();
+	return;
 }
 
 // Handle the press of an operator in the operator list
@@ -125,6 +132,7 @@ function handleOperatorPress(operatorPressed){
 	if (operatorInput === "="){resetInitialValues()}
 	displayValue = '';
 	checkForDecimalPoint();
+	return;
 }
 
 // Format and run the operation desired, return the rounded answer 
@@ -149,22 +157,35 @@ function formatOperator(operator){
 function handleNumberPress(numberPressed){
 	displayValue = displayValue + numberPressed;
 	updateDisplay(displayValue);
+	return;
 }
 
 // Update the display given an update-string
 // input: an updated display string
 function updateDisplay(update){
 	display.textContent = update; 
+	return;
 }
 
 // Check display for a decimal point so it cannot be input more than once
 function checkForDecimalPoint(){
 	displayValue.includes('.') ? decimalPoint.disabled = true : decimalPoint.disabled = false;
+// Check display value for a decimal point
+//input: none
+//output: boolean
+function checkDisplayValueForDecimalPoint(){
+	return displayValue.includes('.');
+}
+
+// Toggle the decimal point depending on if there is already a decimal point in the display
+function toggleDecimalPoint(){
+	checkDisplayValueForDecimalPoint() ? decimalPoint.disabled = true : decimalPoint.disabled = false;
+	return;
 }
 
 // Rounds the number given the decimal places desired
 function round(value, decimals) {
-	  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 
@@ -187,13 +208,21 @@ buttons.forEach(button => button.addEventListener('click', function(e) {getSelec
 
 const decimalPoint = document.getElementById(".");
 decimalPoint.addEventListener('click', checkForDecimalPoint);
+//decimalPoint.addEventListener('click', checkForDecimalPoint);
+//decimalPoint.addEventListener('click', toggleDecimalPointButton);
 
 const display = document.querySelector('#display');
 
 document.addEventListener('keydown', function(e){
-	 if ((calculatorCellNames.includes(e.key)) || (e.key === 'Enter') || (e.key === 'Backspace')){
+	if (decimalPoint.disabled === true && e.key === '.'){
+		return;
+	} else if ((calculatorCellNames.includes(e.key)) || (e.key === 'Enter') || (e.key === 'Backspace')){
 		getSelection(e.key);
 	 } else if (e.key === '.') checkForDecimalPoint;
+		return;
+	} else{
+		return;
+	}
 })
 
 
