@@ -11,23 +11,51 @@ html, body {
 }
 
 #calculator {
+	border: 2em solid #7d5226;
+	border-radius:30px;
 	align-self: center;
-	background: saddlebrown;
+	background: #7d5226; 
+	height: 30em;
+	width: 20em; 
+	min-height: 30em;
+	gap: 0.6em;
 }
 
 button {
-	background: goldenrod;
+	border: 0.2em;
+	border-radius: 10px;
+	background: #ffad33;
 }
 
+button:active {
+	background: orange;
+	transform: translateY(4px);
+}
+
+
 #display {
-	grid-area: 1/1/2/5;
+	display: flex;
+  	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+	margin-bottom: 0.5em;
+	border: 0.5em solid skyblue;
+	border-radius: 10px;
+	grid-area: 1/1/3/5;
 	justify-self: center;
 	align-self: center;
+	background: wheat;
+	height: 70%;
+	width: 90%
+}
+
+#clear, #\+\/\-, #\% {
+	background: #cf3d0d;
 }
 
 /*this is the class '0', needed to escape the numeric char */
 #\30 {
-	grid-area: 6/1/7/3;
+	grid-area: 7/1/8/3;
 }
 
 footer {

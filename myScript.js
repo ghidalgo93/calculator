@@ -185,7 +185,7 @@ function round(value, decimals) {
 
 // ## Script ##
 const calculatorColumns = 4;
-const calculatorRows = 5;
+const calculatorRows = 7;
 const calculatorCellNames = ['display','clear','+/-','%','/','7','8','9','*','4','5','6','-','1','2','3','+','0','.','='];
 const operatorList = ['+', '-', '*', '/', '=', 'Enter'];
 let operandA = 0;
