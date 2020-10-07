@@ -75,7 +75,9 @@ function getSelection(e){
 		clear(e);
 	} else if (e.target.id === '+/-'){
 		handleSignChange(e);
-	} else if (operatorList.includes(e.target.id)){
+	} else if (e.target.id === '%'){
+		handlePercentage(e);
+	}else if (operatorList.includes(e.target.id)){
 		if (decimalPoint.disabled) toggleDecimalPoint();
 		handleOperatorPress(e);
 	} else (handleNumberPress(e.target.id));
@@ -92,6 +94,13 @@ function clear(e){
 function handleSignChange(e){
 	let negative = String(display.textContent * -1);
 	displayValue = negative;
+	updateDisplay(displayValue);
+}
+
+// Gives input as percentage
+function handlePercentage(e){
+	let percent = String(display.textContent / 100);
+	displayValue = percent;
 	updateDisplay(displayValue);
 }
 
