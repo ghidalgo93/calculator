@@ -71,14 +71,12 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 // // Get the calculator selection via event listener, and pass the selection to a handler function
 function getSelection(inputValue){
 	if (inputValue === 'clear' || inputValue === 'Backspace') {
-		if (decimalPoint.disabled) toggleDecimalPoint();
 		handleClear();
 	} else if (inputValue === '+/-'){
 		handleSignChange();
 	} else if (inputValue === '%'){
 		handlePercentage();
 	} else if (operatorList.includes(inputValue)){
-		if (decimalPoint.disabled) toggleDecimalPoint();
 		handleOperatorPress(inputValue);
 	} else (handleNumberPress(inputValue));
 }
@@ -88,6 +86,7 @@ function handleClear(){
 	displayValue = '';
 	updateDisplay(displayValue);
 	resetInitialValues();
+	checkForDecimalPoint();
 }
 
 // Reset to initial operand and operator values (ie, when = is pressed)
@@ -109,6 +108,7 @@ function handlePercentage(){
 	let percent = String(display.textContent / 100);
 	displayValue = percent;
 	updateDisplay(displayValue);
+	checkForDecimalPoint();
 }
 
 // Handle the press of an operator in the operator list
@@ -124,6 +124,7 @@ function handleOperatorPress(operatorPressed){
 	operatorInput = operatorPressed; //get new operator from input
 	if (operatorInput === "="){resetInitialValues()}
 	displayValue = '';
+	checkForDecimalPoint();
 }
 
 // Format and run the operation desired, return the rounded answer 
@@ -156,10 +157,9 @@ function updateDisplay(update){
 	display.textContent = update; 
 }
 
-// Toggle the decial point state when pressed so that it cannot
-// be input more than once
-function toggleDecimalPoint(){	
-	decimalPoint.disabled = !decimalPoint.disabled;
+// Check display for a decimal point so it cannot be input more than once
+function checkForDecimalPoint(){
+	displayValue.includes('.') ? decimalPoint.disabled = true : decimalPoint.disabled = false;
 }
 
 // Rounds the number given the decimal places desired
@@ -186,7 +186,7 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click', function(e) {getSelection(e.target.id)}));
 
 const decimalPoint = document.getElementById(".");
-decimalPoint.addEventListener('click', toggleDecimalPoint);
+decimalPoint.addEventListener('click', checkForDecimalPoint);
 
 const display = document.querySelector('#display');
 
