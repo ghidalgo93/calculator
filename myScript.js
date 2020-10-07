@@ -89,7 +89,6 @@ function handleClear(){
 	displayValue = '';
 	updateDisplay(displayValue);
 	resetInitialValues();
-	checkForDecimalPoint();
 	return;
 }
 
@@ -105,7 +104,6 @@ function resetInitialValues(){
 function handleSignChange(){
 	let negative = String(display.textContent * -1);
 	displayValue = negative;
-	updateDisplay(displayValue);
 	return;
 }
 
@@ -114,7 +112,6 @@ function handlePercentage(){
 	let percent = String(display.textContent / 100);
 	displayValue = percent;
 	updateDisplay(displayValue);
-	checkForDecimalPoint();
 	return;
 }
 
@@ -131,7 +128,6 @@ function handleOperatorPress(operatorPressed){
 	operatorInput = operatorPressed; //get new operator from input
 	if (operatorInput === "="){resetInitialValues()}
 	displayValue = '';
-	checkForDecimalPoint();
 	return;
 }
 
@@ -167,9 +163,6 @@ function updateDisplay(update){
 	return;
 }
 
-// Check display for a decimal point so it cannot be input more than once
-function checkForDecimalPoint(){
-	displayValue.includes('.') ? decimalPoint.disabled = true : decimalPoint.disabled = false;
 // Check display value for a decimal point
 //input: none
 //output: boolean
@@ -207,9 +200,6 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click', function(e) {getSelection(e.target.id)}));
 
 const decimalPoint = document.getElementById(".");
-decimalPoint.addEventListener('click', checkForDecimalPoint);
-//decimalPoint.addEventListener('click', checkForDecimalPoint);
-//decimalPoint.addEventListener('click', toggleDecimalPointButton);
 
 const display = document.querySelector('#display');
 
@@ -218,8 +208,6 @@ document.addEventListener('keydown', function(e){
 		return;
 	} else if ((calculatorCellNames.includes(e.key)) || (e.key === 'Enter') || (e.key === 'Backspace')){
 		getSelection(e.key);
-	 } else if (e.key === '.') checkForDecimalPoint;
-		return;
 	} else{
 		return;
 	}
