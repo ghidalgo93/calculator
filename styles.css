@@ -25,6 +25,7 @@ button {
 	border: 0.2em;
 	border-radius: 10px;
 	background: #ffad33;
+	font-size: 1.5em;
 }
 
 button:active {
