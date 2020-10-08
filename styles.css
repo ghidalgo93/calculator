@@ -50,6 +50,7 @@ button:active {
 	width: 90%
 }
 
+/* grouping together top 3 buttons, escaping special chars */
 #clear, #\+\/\-, #\% {
 	background: #cf3d0d;
 }
@@ -61,4 +62,30 @@ button:active {
 
 footer {
 	align-self: center;
+	font-size: 0.8em;
+	margin-bottom: -9em;
+}
+
+
+/* Medium screens */
+@media all and (max-width: 800px) {
+	footer {
+		font-size: 0.7em;
+		margin-bottom: -12em;
+	}
+}
+
+/* Small screens */
+@media all and (max-width: 500px) {
+	#contents {
+		justify-content: start;
+	}
+	#calculator {
+		width: 80%;
+		height: 90%;
+	}
+	footer {
+		font-size: 0.7em;	
+		margin: 1em;
+	}
 }
