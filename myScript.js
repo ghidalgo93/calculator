@@ -160,6 +160,11 @@ function handleNumberPress(numberPressed){
 // Update the display given an update-string
 // input: an updated display string
 function updateDisplay(update){
+	update = String(update);
+	if (update.length > 14){
+		exp = Number(update).toExponential(2);
+		update = String(exp);
+	}
 	display.textContent = update; 
 }
 
