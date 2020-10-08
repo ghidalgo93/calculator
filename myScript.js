@@ -162,8 +162,8 @@ function handleNumberPress(numberPressed){
 function updateDisplay(update){
 	update = String(update);
 	if (update.length > 14){
-		exp = Number(update).toExponential(2);
-		update = String(exp);
+		let exponentiation = Number(update).toExponential(2);
+		update = String(exponentiation);
 	}
 	display.textContent = update; 
 }
