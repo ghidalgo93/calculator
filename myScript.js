@@ -103,7 +103,9 @@ function resetInitialValues(){
 // Changes the sign of the input
 function handleSignChange(){
 	let negative = String(display.textContent * -1);
+	console.log(negative);
 	displayValue = negative;
+	display.textContent = displayValue;
 	return;
 }
 
@@ -123,6 +125,7 @@ function handleOperatorPress(operatorPressed){
 	//TODO highlight operator that was pressed
 	operandB = display.textContent; //set operand b to user input
 	answer = formatOperation(operatorInput, operandA, operandB) //do and format PAST operation
+	console.log(answer);
 	updateDisplay(answer);
 	operandA = answer; //set operand a to PAST answer
 	operatorInput = operatorPressed; //get new operator from input
@@ -160,7 +163,6 @@ function handleNumberPress(numberPressed){
 // input: an updated display string
 function updateDisplay(update){
 	display.textContent = update; 
-	return;
 }
 
 // Check display value for a decimal point
@@ -208,12 +210,8 @@ document.addEventListener('keydown', function(e){
 		return;
 	} else if ((calculatorCellNames.includes(e.key)) || (e.key === 'Enter') || (e.key === 'Backspace')){
 		getSelection(e.key);
-	} else{
-		return;
 	}
 })
-
-
 
 
 
