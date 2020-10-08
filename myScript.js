@@ -52,7 +52,7 @@ function fillGrid(gridContainer, cellNames, columns, rows){
 		let currentCell;
 		if (cellNum === 0){
         	currentCell = document.createElement('div');
-			currentCell.textContent = '';
+			currentCell.textContent = '0';
 		} else {
 			currentCell = document.createElement('button');
 			currentCell.textContent = `${cellNames[cellNum]}`;
@@ -87,7 +87,7 @@ function getSelection(inputValue){
 // Clear the calculator display and the stored operand value
 function handleClear(){
 	displayValue = '';
-	updateDisplay(displayValue);
+	updateDisplay('0');
 	resetInitialValues();
 	return;
 }
@@ -103,7 +103,6 @@ function resetInitialValues(){
 // Changes the sign of the input
 function handleSignChange(){
 	let negative = String(display.textContent * -1);
-	console.log(negative);
 	displayValue = negative;
 	display.textContent = displayValue;
 	return;
@@ -125,7 +124,6 @@ function handleOperatorPress(operatorPressed){
 	//TODO highlight operator that was pressed
 	operandB = display.textContent; //set operand b to user input
 	answer = formatOperation(operatorInput, operandA, operandB) //do and format PAST operation
-	console.log(answer);
 	updateDisplay(answer);
 	operandA = answer; //set operand a to PAST answer
 	operatorInput = operatorPressed; //get new operator from input
@@ -212,6 +210,28 @@ document.addEventListener('keydown', function(e){
 		getSelection(e.key);
 	}
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
